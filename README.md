@@ -8,5 +8,5 @@ This course term project was divided into two modules:
 1.2) Image feature extraction and exploration 
 2.0) Image classification
 
-Report can be found here:
+Although this project is ongoing,the preliminary report can be found here:
 https://www.overleaf.com/8714929vxbnbchsxykc
