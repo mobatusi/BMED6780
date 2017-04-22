@@ -28,8 +28,7 @@ refimg =  trainset{1};
 % Create a folder to save normalized images
 dest_folder = strcat(folder_name,'/','normalize')
 mkdir(dest_folder)
-
-% dest_folder = 'C:\Users\aojag\OneDrive - Georgia Institute of Technology\Med Image Processing Project\Dataset\dataset2\Module2_PredictionModeling_Data\TCGA_KIRC_Grading_Survival\Normalized\';
+%%
 img = zeros(512,512,3);
 
 target = imread(strcat(folder_name, '/',refimg));
@@ -44,7 +43,7 @@ btarstd = std2(target(:,:,3));
 srcFiles = reshape(trainset, [1360,1]);
 for i = 1 : length(srcFiles)
     disp(i);
-    filename = strcat(folder_name,srcFiles(i).name);
+    filename = strcat(folder_name,'/',srcFiles{i});
     image = rgb2lab(imread(filename));
     lorigmean = mean2(image(:,:,1));
     aorigmean = mean2(image(:,:,2));
@@ -59,6 +58,6 @@ for i = 1 : length(srcFiles)
     img(:,:,2) = anew;
     img(:,:,3) = bnew;
     img1 = lab2rgb(img);
-    imwrite(img1, strcat(dest_folder,srcFiles(i).name))
+    imwrite(img1, strcat(folder_name,'/',srcFiles{i}))
 end
 end
