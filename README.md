@@ -24,10 +24,14 @@ https://www.overleaf.com/8714929vxbnbchsxykc
     <img src="https://cloud.githubusercontent.com/assets/22042303/25307291/5df8f6f4-276c-11e7-903f-b620a82d5fdd.png" width="150"/>  
 </p>
 <p align="center">
-<b>Necrosis</b>
-<b>Stroma</b>
-<b>Tumor</b>
+<b>Necrosis |</b>
+<b>Stroma   |</b>
+<b>Tumor     </b>
 </p>
 ## Dataset 2:
+The second dataset consists of 512×512-pixel rectangular portions of 100 whole-slide images (WSIs) of kidney clear cell carcinoma patients. Each patient is represented by 16 adjacent portions labeled as [patient name]_Tile_[row number]_[column number].png. Each patient is associated with the grade of cancer and the number of survival days. 
+
 
 ## Dataset 3:
+The third dataset comprises of 512×512-pixel rectangular portions of 59 whole-slide images (WSIs) of pancreatic cancer patients. Each patient is represented by 16 randomly selected portions labeled as [patient name]_Tile.png. Each patient is associated with the grade of cancer and the number of survival days. However, in this module, there is no need to consider the clinical labels of the images when developing segmentation meth\item 512×512-pixel rectangular portions of 59 whole-slide images (WSIs) of pancreatic cancer patients.ods.
+
