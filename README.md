@@ -36,3 +36,19 @@ The second dataset consists of 512×512-pixel rectangular portions of 100 whole-
 ## Dataset 3:
 The third dataset comprises of 512×512-pixel rectangular portions of 59 whole-slide images (WSIs) of pancreatic cancer patients. Each patient is represented by 16 randomly selected portions labeled as [patient name]_Tile.png. Each patient is associated with the grade of cancer and the number of survival days. However, in this module, there is no need to consider the clinical labels of the images when developing segmentation meth\item 512×512-pixel rectangular portions of 59 whole-slide images (WSIs) of pancreatic cancer patients.ods.
 
+
+## Functions:
+ - pipeline.m : 
+ - FeatureExtract.m: 
+ - colornorm.m:
+ - segment.m:
+ - mip_gui.m:
+ - mip_gui.fig:
+ - classify.m:
+
+## How to Run Code:
+-  Step 1: 
+
+-  Step 2: 
+
+-  Step 3: 
