@@ -28,6 +28,7 @@ https://www.overleaf.com/8714929vxbnbchsxykc
 <b>Stroma   |</b>
 <b>Tumor     </b>
 </p>
+
 ## Dataset 2:
 The second dataset consists of 512×512-pixel rectangular portions of 100 whole-slide images (WSIs) of kidney clear cell carcinoma patients. Each patient is represented by 16 adjacent portions labeled as [patient name]_Tile_[row number]_[column number].png. Each patient is associated with the grade of cancer and the number of survival days. 
 
