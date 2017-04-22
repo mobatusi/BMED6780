@@ -18,7 +18,10 @@ https://www.overleaf.com/8714929vxbnbchsxykc
 
 ## Dataset 1:
 100 digital microscopic images of hematoxylin and eosin (H&E) stained tissue sections of kidney clear cell carcinoma consisting of 100 tumor, 100 necrosis, and 100 stroma sections will be provided.H&E staining enhances three colors:  blue-purple, white, and pink. These colors correspond to specific cellular structures. 
-
+<p align="center">
+  <img src="https://cloud.githubusercontent.com/assets/22042303/25307288/53392f36-276c-11e7-86b6-af3809c89f0b.png" width="350"/>
+  <img src="https://cloud.githubusercontent.com/assets/22042303/25307290/5889a826-276c-11e7-9c79-8a938e9bf87b.png" width="350"/>
+</p>
 https://cloud.githubusercontent.com/assets/22042303/25307288/53392f36-276c-11e7-86b6-af3809c89f0b.png
 Necrosis
 https://cloud.githubusercontent.com/assets/22042303/25307290/5889a826-276c-11e7-9c79-8a938e9bf87b.png
