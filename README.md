@@ -21,13 +21,10 @@ https://www.overleaf.com/8714929vxbnbchsxykc
 <p align="center">
   <img src="https://cloud.githubusercontent.com/assets/22042303/25307288/53392f36-276c-11e7-86b6-af3809c89f0b.png" width="350"/>
   <img src="https://cloud.githubusercontent.com/assets/22042303/25307290/5889a826-276c-11e7-9c79-8a938e9bf87b.png" width="350"/>
+    <img src="https://cloud.githubusercontent.com/assets/22042303/25307291/5df8f6f4-276c-11e7-903f-b620a82d5fdd.png" width="350"/>
 </p>
-https://cloud.githubusercontent.com/assets/22042303/25307288/53392f36-276c-11e7-86b6-af3809c89f0b.png
-Necrosis
-https://cloud.githubusercontent.com/assets/22042303/25307290/5889a826-276c-11e7-9c79-8a938e9bf87b.png
-Stroma
-https://cloud.githubusercontent.com/assets/22042303/25307291/5df8f6f4-276c-11e7-903f-b620a82d5fdd.png
-Tumor
+Necrosis | Stroma | Tumor 
+
 ## Dataset 2:
 
 ## Dataset 3:
