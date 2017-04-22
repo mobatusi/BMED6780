@@ -1,4 +1,4 @@
-function results = imagetraining()
+function [testset, trainset] = imagetraining()
 % Description
 % This function will generate all the mat files that are needed for
 % training the images for all datasets. Essentially this mat file will
@@ -27,10 +27,11 @@ allfiles = dir( fullfile(folder_name,'*.png') );%# list all *.xyz files
 allfiles = {allfiles.name}';%'# file names   
 % pat = {'Necrosis','Stroma','Tumor'}  ;            
 
-%%
+%% Separate dataset 1,2 and 3 into training and testing set
 img_combined = [];
 Table = [];
 switch button
+% Separate dataset 1 into training and testing set
     case 'Dataset 1'        
 %         testset = [];
 %         % number that is equivalent to 15% of the dataset
@@ -53,8 +54,9 @@ switch button
         % Assign 15% of the data as testing set
         testset = newshape(1:15, :);
         % Assign 85% of data as testing set    
-        traintest = newshape(16:end,:);
-
+        trainset = newshape(16:end,:);
+        
+% Separate dataset 2 into training and testing set
 
     case 'Dataset 2'
         % reshape cell into 100 by 16 images
@@ -62,24 +64,18 @@ switch button
         % Assign 15% of the data as testing set
         testset = newshape(:,1:15);
         % Assign 85% of data as testing set    
-        traintest = newshape(:,16:end);
-
+        trainset = newshape(:,16:end);
+        
+% Separate dataset 3 into training and testing set
     case 'Dataset 3'
         % reshape cell into 59 by 16 images
         newshape = reshape(allfiles,[16,59]);
         % Assign 15% of the data as testing set
         testset = newshape(:,1:9);
         % Assign 85% of data as testing set    
-        traintest = newshape(:,10:end);
+        trainset = newshape(:,10:end);
 
 end 
-
-
-% Separate dataset 1 into training and testing set
-
-% Separate dataset 2 into training and testing set
-
-% Separate dataset 3 into training and testing set
 
 % Run image normalization on dataset 1
 
