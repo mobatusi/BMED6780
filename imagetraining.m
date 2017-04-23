@@ -131,7 +131,7 @@ normimg = normal(folder, selectedImage, button,reply2);
 
 %Uses linear discriminant to mask tissue pixels from background/glass.
 % Mask = ForegroundDiscriminant(I, W)
-Table = Makingref()
+Table = Makingref();
 
 % Run knnalgorithm.m function using Table as input and generating
 % trainedclassifier
