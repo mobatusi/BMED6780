@@ -98,10 +98,10 @@ ff = mean(f);
 % end
 % xlswrite('G:\databases\MIP\new_KIRC.xlsx', new_label)
 % Load the configuration and set dictionary size to 20 (for fast demo)
-c = conf();
-feature = 'color';
-c.feature_config.(feature).dictionary_size=100;
-[~, ~, ~, ~, ~] = extract_color(I, c);                   
+% c = conf();
+% feature = 'color';
+% c.feature_config.(feature).dictionary_size=100;
+% [~, ~, ~, ~, ~] = extract_color(I, c);                   
 
 %Built-in shape features                    
 statsI = regionprops(L, 'Area','Perimeter','Eccentricity',...
