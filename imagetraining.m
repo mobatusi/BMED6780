@@ -53,7 +53,7 @@ if strcmpi(reply2, 'One Image')
 	% Browse for the image file. 
 	[baseFileName, folder] = uigetfile('*.*', 'Specify an image file'); 
 	fullimagepath = fullfile(folder, baseFileName); 
-    selectedImage = baseFileName;
+    selectedImage = {baseFileName};
 	% Set current folder back to the original one. 
 	cd(originalFolder);
 % 	selectedImage = 'My own image'; % Need for the if threshold selection statement later.
@@ -105,7 +105,7 @@ else % If more than one image
 selectedImage = trainset;
 end
 %% Run color normalization on image(s)
-normal(folder, selectedImage)
+normimg = normal(folder, selectedImage, button,reply2);
 % Run image normalization on dataset 2
 
 % Run image normalization on dataset 3
@@ -114,7 +114,7 @@ normal(folder, selectedImage)
 
 % Color Normalization
 % output is saved in a folder within the directory called normalize
-normal(folder_name, trainset);
+% normal(folder_name, trainset);
 
 %Bouguer-Lambert-Beer transformation of RGB color values.
 
@@ -129,18 +129,18 @@ normal(folder_name, trainset);
 % dataset
 
 %Uses linear discriminant to mask tissue pixels from background/glass.
-Mask = ForegroundDiscriminant(I, W)
-Table = Makingref()
+% Mask = ForegroundDiscriminant(I, W)
+% Table = Makingref()
 
 % Run knnalgorithm.m function using Table as input and generating
 % trainedclassifier
 [trainedClassifier, validationAccuracy] = knnalgorithm(Table);
 
 % color illumination normalization
-RGB = LAB2RGB(LAB)
+% RGB = LAB2RGB(LAB)
 %Converts RGB image to LAB colorspace.
 
-Normalized = Reinhard(I, TargetMu, TargetSigma, W, Mask)
+% Normalized = Reinhard(I, TargetMu, TargetSigma, W, Mask)
 %Performs Reinhard color normalization to map input image statistics to
 %target image statistics in LAB color space.
 
@@ -162,7 +162,7 @@ Normalized = Reinhard(I, TargetMu, TargetSigma, W, Mask)
 
 % Perform Image Segmentation using trained classifier and image as input in
 % function SupervisedSegmentation
-[nucleus, cytoplasm, glands] = SupervisedSegmentation(image, trainedClassifier);
+% [nucleus, cytoplasm, glands] = SupervisedSegmentation(image, trainedClassifier);
 
 %% Feature extraction & selection
 
@@ -182,7 +182,7 @@ Normalized = Reinhard(I, TargetMu, TargetSigma, W, Mask)
 % function
 % [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I, K, FSDBins,...
 %                                                         Delta, M)
-[Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I);
+% [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I);
 % Select and Rank useful features
 
 %% Disease detection, classification, & post Processing
