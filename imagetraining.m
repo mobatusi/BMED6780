@@ -1,4 +1,4 @@
-function [testset, trainset] = imagetraining()
+function [Features, Names, cX, cY]  = imagetraining()
 % Description
 % This function will generate all the mat files that are needed for
 % training the images for all datasets. Essentially this mat file will
@@ -10,9 +10,10 @@ function [testset, trainset] = imagetraining()
 % USING IMAGE PROCESSING TECHNIQUES : AN OVERVIEW. Signal & Image Processing, 3(4), 23–36.
 % Last Edit: 04/17/17 by Dolu Obatusin
 %% Separate images in to training and testing set
-
+clc
+clear all
 % fprintf('Loading data and selecting subset based on user input...\n');
-ver % Display user's toolboxes in their command window.
+% ver % Display user's toolboxes in their command window.
 
 % Introduce the demo, and ask user if they want to continue or exit.
 message = sprintf('This function will be used to train images\nDo you wish to continue?');
@@ -46,10 +47,10 @@ if strcmpi(reply2, 'One Image')
     end
 	originalFolder = pwd; 
 %     folder = 'C:\Program Files\MATLAB\R2010a\toolbox\images\imdemos'; 
-	if ~exist(originalFolder, 'dir') 
-			folder = pwd; 
-	end 
-	cd(folder); 
+% 	if ~exist(folder, 'dir') 
+% 			folder = pwd; 
+% 	end 
+% 	cd(folder); 
 	% Browse for the image file. 
 	[baseFileName, folder] = uigetfile('*.*', 'Specify an image file'); 
 	fullimagepath = fullfile(folder, baseFileName); 
@@ -130,7 +131,7 @@ normimg = normal(folder, selectedImage, button,reply2);
 
 %Uses linear discriminant to mask tissue pixels from background/glass.
 % Mask = ForegroundDiscriminant(I, W)
-% Table = Makingref()
+Table = Makingref()
 
 % Run knnalgorithm.m function using Table as input and generating
 % trainedclassifier
@@ -162,7 +163,7 @@ normimg = normal(folder, selectedImage, button,reply2);
 
 % Perform Image Segmentation using trained classifier and image as input in
 % function SupervisedSegmentation
-% [nucleus, cytoplasm, glands] = SupervisedSegmentation(image, trainedClassifier);
+[nucleus, cytoplasm, glands] = SupervisedSegmentation(normimg, trainedClassifier);
 
 %% Feature extraction & selection
 
@@ -182,7 +183,7 @@ normimg = normal(folder, selectedImage, button,reply2);
 % function
 % [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I, K, FSDBins,...
 %                                                         Delta, M)
-% [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I);
+[Features, Names, cX, cY] = FeatureExtraction_BMED6780(nucleus, normimg);
 % Select and Rank useful features
 
 %% Disease detection, classification, & post Processing
