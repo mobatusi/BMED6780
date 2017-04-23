@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 function [Features, Names, cX, cY] = FeatureExtraction_BMED6780(nucleus, image)
-=======
-function [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I, K, FSDBins,...
-                                                        Delta, M)
->>>>>>> 05c70a3f87dd5cca2be7fc5370626aa45acbcd65
+
 %Extract shape, texture, gradient and intensity features from segmented 
 %objects.
 %
@@ -33,27 +29,21 @@ function [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I, K, FSDBins
 %doi: 10.1371/journal.pone.0081049. eCollection 2013.
 %
 %Authors: Lee Cooper and Jun Kong, Emory University.
-<<<<<<< HEAD
 % Modified by Dolu Obatusin with added scripts from Nishanth Rao P R  and Ashkan Ojaghi
 % Includes other feature extraction paratmets such as color, texture
 % (wavelet, and GLCM, and fractal)
 L = nucleus;
 I = image;
-=======
 % Modified by Dolu Obatusin 
 % Includes other feature extraction paratmets such as color, texture
 % (wavelet, and GLCM, and fractal)
 
->>>>>>> 05c70a3f87dd5cca2be7fc5370626aa45acbcd65
 
 %Parse inputs and set default values
 switch nargin
     case 2
-<<<<<<< HEAD
 %         K = 128;
-=======
         K = 128;
->>>>>>> 05c70a3f87dd5cca2be7fc5370626aa45acbcd65
         FSDBins = 6;
         Delta = 8;
         M = [0.650 0.072 0; 0.704 0.990 0; 0 0 0];
@@ -72,7 +62,6 @@ end
 N = max(L(:));
 
 %Color features
-<<<<<<< HEAD
 % srcFiles = dir('G:\databases\MIP\Module2_PredictionModeling_Data\TCGA_KIRC_Grading_Survival\KIRC_Tumor\*.png');
 % for i = 1 : length(srcFiles)
 %     filename = strcat('G:\databases\MIP\Module2_PredictionModeling_Data\TCGA_KIRC_Grading_Survival\KIRC_Tumor\'...
@@ -108,14 +97,12 @@ ff = mean(f);
 %     end
 % end
 % xlswrite('G:\databases\MIP\new_KIRC.xlsx', new_label)
-=======
 % Load the configuration and set dictionary size to 20 (for fast demo)
 c = conf();
 feature = 'color';
 c.feature_config.(feature).dictionary_size=100;
-[feat, x, y, wid, hgt] = extract_color(I, c);                   
+[~, ~, ~, ~, ~] = extract_color(I, c);                   
 
->>>>>>> 05c70a3f87dd5cca2be7fc5370626aa45acbcd65
 %Built-in shape features                    
 statsI = regionprops(L, 'Area','Perimeter','Eccentricity',...
                         'MajorAxisLength','MinorAxisLength','Extent',...
@@ -130,15 +117,11 @@ fMajorAxisLength = cat(1,statsI.MajorAxisLength);
 fMinorAxisLength = cat(1,statsI.MinorAxisLength);
 fExtent = cat(1,statsI.Extent);
 fSolidity = cat(1,statsI.Solidity);
-<<<<<<< HEAD
 fMorph = [fa,fb,fc,fd,fe,ff,fArea, fPerimeter, fEccentricity, fCircularity,...
             fMajorAxisLength, fMinorAxisLength, fExtent, fSolidity];
-MorphNames = {'fa','fb','fc','fd','fe','ff','Area', 'Perimeter', 'Eccentricity', 'Circularity',...
-=======
 fMorph = [fArea, fPerimeter, fEccentricity, fCircularity,...
-            fMajorAxisLength, fMinorAxisLength, fExtent, fSolidity];
-MorphNames = {'Color','Area', 'Perimeter', 'Eccentricity', 'Circularity',...
->>>>>>> 05c70a3f87dd5cca2be7fc5370626aa45acbcd65
+            fMajorAxisLength, fMinorAxisLength, fExtent,fSolidity];
+MorphNames = {'fa','fb','fc','fd','fe','ff','Area', 'Perimeter', 'Eccentricity', 'Circularity',...
                 'MajorAxisLength', 'MinorAxisLength', 'Extent',...
                 'Solidity'};
 
@@ -164,7 +147,6 @@ for i = 1:N
 end
             
 %Calculate Fourier shape descriptors
-<<<<<<< HEAD
 % Interval = round(Log2Spaced(0, log2(K)-1, FSDBins+1));
 FSDNames = cellfun(@(x,y) [x num2str(y)], repmat({'FSD'}, [1,FSDBins]),...
                     num2cell(1:FSDBins), 'UniformOutput', false);
@@ -173,7 +155,6 @@ FSDGroup = zeros(N, FSDBins);
 %     FSDGroup(i,:) = FourierShapeDescriptors(Bounds{i}(:,1),...
 %         Bounds{i}(:,2), K, Interval);
 % end
-=======
 Interval = round(Log2Spaced(0, log2(K)-1, FSDBins+1));
 FSDNames = cellfun(@(x,y) [x num2str(y)], repmat({'FSD'}, [1,FSDBins]),...
                     num2cell(1:FSDBins), 'UniformOutput', false);
@@ -182,7 +163,6 @@ for i = 1:N
     FSDGroup(i,:) = FourierShapeDescriptors(Bounds{i}(:,1),...
         Bounds{i}(:,2), K, Interval);
 end
->>>>>>> 05c70a3f87dd5cca2be7fc5370626aa45acbcd65
 
 %Deconvolve color image to calculate nuclear, cytoplasmic texture features
 Deconvolved = ColorDeconvolution(I, M, [true true false]);
@@ -225,7 +205,6 @@ CytoplasmNames = cellfun(@(x)strcat('Cytoplasm', x), Names, 'UniformOutput', fal
 Names = [MorphNames FSDNames NuclearNames CytoplasmNames];
 
 end
-
 
 function [Intensity, Names] = IntensityFeatureGroup(I, ObjectPixelList)
 Intensity = zeros(length(ObjectPixelList), 4);
