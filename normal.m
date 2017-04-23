@@ -1,4 +1,4 @@
-function normal(folder_name, trainset)
+function normal(folder, selectedImage)
 % The goal of this function is to normalize the images
 % This process reduces the differences in tissue samples 
 % due to variation in staining and scanning conditions.
@@ -13,9 +13,12 @@ function normal(folder_name, trainset)
 % folder_name = dirctory where normalized images are located
 % trainset = the training set that is being normalized, varies depending on
 % the dataset.
-%%
-if exist(folder_name, 'dir') ~=7
-        message = sprintf('Error: folder does not exist:\n%s', folder_name);
+% num = the number of images to normalize. Default is all the images a
+% directory folder
+%%mkdir(dest_folder)
+
+if exist(folder, 'dir') ~=7
+        message = sprintf('Error: folder does not exist:\n%s', folder);
         uiwait(warndlg(message));
         return;
 end
@@ -23,15 +26,15 @@ end
 % Select the image in the contrast with the largest contrast
 % Udeally this should call on a function that figures out which image has
 % the largest contrast
-refimg =  trainset{1};
+refimg =  selectedImage{1};
 
 % Create a folder to save normalized images
-dest_folder = strcat(folder_name,'/','normalize')
+dest_folder = strcat(folder,'/','normalize')
 mkdir(dest_folder)
 %%
 img = zeros(512,512,3);
 
-target = imread(strcat(folder_name, '/',refimg));
+target = imread(strcat(folder, '/',refimg));
 target = rgb2lab(target);
 ltarmean = mean2(target(:,:,1));
 atarmean = mean2(target(:,:,2));
@@ -40,10 +43,10 @@ ltarstd = std2(target(:,:,1));
 atarstd = std2(target(:,:,2));
 btarstd = std2(target(:,:,3));
 % srcFiles = dir(folder_name);
-srcFiles = reshape(trainset, [1360,1]);
+srcFiles = reshape(selectedImage, [1360,1]);
 for i = 1 : length(srcFiles)
     disp(i);
-    filename = strcat(folder_name,'/',srcFiles{i});
+    filename = strcat(folder,'/',srcFiles{i});
     image = rgb2lab(imread(filename));
     lorigmean = mean2(image(:,:,1));
     aorigmean = mean2(image(:,:,2));
@@ -58,6 +61,6 @@ for i = 1 : length(srcFiles)
     img(:,:,2) = anew;
     img(:,:,3) = bnew;
     img1 = lab2rgb(img);
-    imwrite(img1, strcat(folder_name,'/',srcFiles{i}))
+    imwrite(img1, strcat(dest_folder,'/',srcFiles{i}))
 end
 end
