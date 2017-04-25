@@ -5,9 +5,16 @@ function [Features, Names, cX, cY]  = imagetraining()
 % contained trainedclassifier for dataset 1,2,3 including any other
 % dependencies. The pipeline will call upon variables from this mat file
 
-% Methods refereced from 
+% Methods are taken from: 
 % Belsare, A. D., & Mushrif, M. M. (2012). HISTOPATHOLOGICAL IMAGE ANALYSIS 
 % USING IMAGE PROCESSING TECHNIQUES : AN OVERVIEW. Signal & Image Processing, 3(4), 23–36.
+ 
+% parameters:
+% folder
+% selectedImage 
+% button
+% reply2
+
 % Last Edit: 04/17/17 by Dolu Obatusin
 %% Separate images in to training and testing set
 clc
@@ -35,7 +42,6 @@ reply2 = questdlg(message, 'Which Image?', 'All images','One Image', 'Demo');
 %     return;
 % end
 %% If only one image
-if strcmpi(reply2, 'One Image')
 		% Read standard MATLAB demo image.
 	% 	fullImageFileName = 'peppers.png';
 	% Ask user which dataset they want to make references
@@ -45,12 +51,10 @@ if strcmpi(reply2, 'One Image')
     if strcmp(button, 'Cancel')
         return;
     end
+if strcmpi(reply2, 'One Image')
+
 	originalFolder = pwd; 
-%     folder = 'C:\Program Files\MATLAB\R2010a\toolbox\images\imdemos'; 
-% 	if ~exist(folder, 'dir') 
-% 			folder = pwd; 
-% 	end 
-% 	cd(folder); 
+
 	% Browse for the image file. 
 	[baseFileName, folder] = uigetfile('*.*', 'Specify an image file'); 
 	fullimagepath = fullfile(folder, baseFileName); 
@@ -66,7 +70,7 @@ else % If more than one image
     allfiles = dir( fullfile(folder,'*.png') );%# list all *.xyz files
     allfiles = {allfiles.name}';%'# file names   
     % pat = {'Necrosis','Stroma','Tumor'}  ;            
-    cd(originalFolder);
+%     cd(originalFolder);
 
 
 
@@ -106,12 +110,16 @@ else % If more than one image
 selectedImage = trainset;
 end
 %% Run color normalization on image(s)
+%  Magee et al (2009). Colour Normalisation in Digital Histopathology Images. 
+%  Optical Tissue Image Analysis in Microscopy, Histopathology and Endoscopy (MICCAI Workshop)
 normimg = normal(folder, selectedImage, button,reply2);
 % Run image normalization on dataset 2
 
 % Run image normalization on dataset 3
 
 %% Preprocessing and image segmentation
+% Zhang et al (2008). Image segmentation evaluation: A survey of unsupervised methods. 
+% Unnikrishnan,et al. (2007). Toward objective evaluation of image segmentation algorithms. 
 
 % Color Normalization
 % output is saved in a folder within the directory called normalize
@@ -128,14 +136,14 @@ normimg = normal(folder, selectedImage, button,reply2);
  
 % Run Function makingRef.m function on the dataset to obtain Table on a
 % dataset
+Table = Makingref();
 
 %Uses linear discriminant to mask tissue pixels from background/glass.
 % Mask = ForegroundDiscriminant(I, W)
-Table = Makingref();
 
 % Run knnalgorithm.m function using Table as input and generating
 % trainedclassifier
-[trainedClassifier, validationAccuracy] = knnalgorithm(Table);
+[trainedClassifier, ~] = knnalgorithm(Table);
 
 % color illumination normalization
 % RGB = LAB2RGB(LAB)
@@ -163,49 +171,60 @@ Table = Makingref();
 
 % Perform Image Segmentation using trained classifier and image as input in
 % function SupervisedSegmentation
-[nucleus, cytoplasm, glands] = SupervisedSegmentation(normimg, trainedClassifier);
+[nucleus, ~, ~] = SupervisedSegmentation(normimg, trainedClassifier);
 
 %% Feature extraction & selection
+% Gurcan et al, (2009). Histopathological image analysis: a review. 
+% Kothari, et al (2014). Histological Image Feature Mysis: a review. 
+% Kothari, et al (2014). Histological Image Feature Mining Reveals Emergent Diagnostic Properties for Renal Cancer. 
+% Boucheron, L. E. (2008). Object- and Spatial-Level Quantitative Analysis of Multispectral Histopathology Images for Detection and Characterization of Cancer
 
-% Morphometry
-
-% Color
-
-% textural
-
+% Color 
+% Morphology such as shape and topology (after segmenting stains based on methods developed in Module 1)
+% Texture such as wavelet, GLCM, and fractal
 % intensity based
-
-% Morphological
 
 % Lineaer, Non linear feature Reduction
 
 % use Segmented images and original image as input in feature extraction
-% function
-% [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I, K, FSDBins,...
-%                                                         Delta, M)
+
 [Features, Names, cX, cY] = FeatureExtraction_BMED6780(nucleus, normimg);
 % Select and Rank useful features
 
 %% Disease detection, classification, & post Processing
-% Supervised
+%  Bellazzi et al, (2006). Predictive data mining in clinical medicine: Current issues and guidelines. 
+%  F. Pereira et al, "Machine learning classifiers and fMRI: a tutorial overview,"
+%  J. Kong et al, "Computer-aided evaluation of neuroblastoma on whole-slide histology images: 
+%  Classifying grade of neuroblastic differentiation," 
 
-% Unsupervised
+% SVM 
+%  Develop two cross-validation schemes (or internal validation) by training the classifiers using the training dataset
+    % N-iterations of m-fold cross-validation
+    % Leave-one-out cross-validation or bootstrapping for classifier optimization [13, 14]
+%  Develop four performance metrics to evaluate your predictive model performance when applying to test dataset (i.e., external validation)
+    % Area Under the Curve (AUC)
+    % Matthews Correlation Coefficient (MCC)
+    % F-score
+    % Accuracy [21]
 
-% Neural Networks
-
-% k-nearest neighbors
-
-% Fuzzy systems
-
-% Morphological features
-
-% Perform cross validation on training set and iterate until convergence
-
-% Save workspace as mat file
-
-
-
-
-
+% KNN
+%  Develop two cross-validation schemes (or internal validation) by training the classifiers using the training dataset
+    % N-iterations of m-fold cross-validation
+    % Leave-one-out cross-validation or bootstrapping for classifier optimization [13, 14]
+%  Develop four performance metrics to evaluate your predictive model performance when applying to test dataset (i.e., external validation)
+    % Area Under the Curve (AUC)
+    % Matthews Correlation Coefficient (MCC)
+    % F-score
+    % Accuracy [21]
+    
+% Fisher discriminant analysis (MATLAB classify function)
+%  Develop two cross-validation schemes (or internal validation) by training the classifiers using the training dataset
+    % N-iterations of m-fold cross-validation
+    % Leave-one-out cross-validation or bootstrapping for classifier optimization [13, 14]
+%  Develop four performance metrics to evaluate your predictive model performance when applying to test dataset (i.e., external validation)
+    % Area Under the Curve (AUC)
+    % Matthews Correlation Coefficient (MCC)
+    % F-score
+    % Accuracy [21]
 
 end % end pipeline function
