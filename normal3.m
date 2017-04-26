@@ -1,4 +1,4 @@
-function results = normal3(im)
+function results = normal3(im, dataset)
 %Image Processing Function
 %
 % IM      - Input image.
@@ -24,7 +24,16 @@ function results = normal3(im)
 % target = imread(refimg);
 % target = rgb2lab(target);
 % inDir = '/media/dolu/Mosadoluwa/Documents/Projects/Medical Image Processing Project/Projects/Data/dataset1/Module1.2_FeatureExtractionSelection_Data';
-norms = load('dynamic_range2.mat');
+if dataset == 'dataset 1'
+norms = load('d1_dynamic_range.mat');
+elseif dataset == 'dataset 1'
+norms = load('d2_dynamic_range.mat');
+elseif dataset == 'dataset 1'
+norms = load('d3_dynamic_range.mat');
+else
+        f = warndlg('Please select a dataset.', 'Select dataset');
+end
+
 ltarmean = mean([norms.result.redChannel_Mean]);
 atarmean = mean([norms.result.greenChannel_Mean]);
 btarmean = mean([norms.result.blueChannel_Mean]);
@@ -55,6 +64,6 @@ img(:,:,2) = anew;
 img(:,:,3) = bnew;
 normimg = lab2rgb(img);
 
-results.img = normimg;
+results = normimg;
 
 %--------------------------------------------------------------------------
