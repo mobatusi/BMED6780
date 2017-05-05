@@ -38,17 +38,26 @@ The third dataset comprises of 512×512-pixel rectangular portions of 59 whole-s
 
 
 ## Functions:
- - pipeline.m : 
- - FeatureExtract.m: 
- - colornorm.m:
- - segment.m:
- - mip_gui.m:
- - mip_gui.fig:
- - classify.m:
-
+ - normal.m: Used to normalize the image
+ - featextractall.m: used to perform feature extraction
+ - knnalgorithm: used to train a classifier that build a model usef for segmentation
+ - myclassifier.mlapp: used to run GUI 
+ - Makingref: Used to find the three classes for segmentation purposes
+ - SupervisedSegmentation.m: function segments images based on supervised appraoch.
+ 
 ## How to Run Code:
+
+Clone this repo and navigate into the directory:
+$ git clone https://github.com/mobatusi/BMED6780.git
+Open Matlab (R2016b or later) and start the GUI:
+
 -  Step 1: 
-
+type myclassifier into the commandlin in Matlab
 -  Step 2: 
-
+Select test
 -  Step 3: 
+Select Load
+-  Step 4: 
+Select Supervised
+-  Step 5: 
+Run
