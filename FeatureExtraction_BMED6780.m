@@ -1,5 +1,5 @@
-function [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I, K, FSDBins,...
-                                                        Delta, M)
+function [Features, Names, cX, cY] = FeatureExtraction_BMED6780(nucleus, image)
+
 %Extract shape, texture, gradient and intensity features from segmented 
 %objects.
 %
@@ -29,6 +29,11 @@ function [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I, K, FSDBins
 %doi: 10.1371/journal.pone.0081049. eCollection 2013.
 %
 %Authors: Lee Cooper and Jun Kong, Emory University.
+% Modified by Dolu Obatusin with added scripts from Nishanth Rao P R  and Ashkan Ojaghi
+% Includes other feature extraction paratmets such as color, texture
+% (wavelet, and GLCM, and fractal)
+L = nucleus;
+I = image;
 % Modified by Dolu Obatusin 
 % Includes other feature extraction paratmets such as color, texture
 % (wavelet, and GLCM, and fractal)
@@ -37,6 +42,7 @@ function [Features, Names, cX, cY] = FeatureExtraction_BMED6780(L, I, K, FSDBins
 %Parse inputs and set default values
 switch nargin
     case 2
+%         K = 128;
         K = 128;
         FSDBins = 6;
         Delta = 8;
@@ -56,11 +62,46 @@ end
 N = max(L(:));
 
 %Color features
+% srcFiles = dir('G:\databases\MIP\Module2_PredictionModeling_Data\TCGA_KIRC_Grading_Survival\KIRC_Tumor\*.png');
+% for i = 1 : length(srcFiles)
+%     filename = strcat('G:\databases\MIP\Module2_PredictionModeling_Data\TCGA_KIRC_Grading_Survival\KIRC_Tumor\'...
+%         ,srcFiles(i).name);
+    %disp(filename)
+% image = imread(filename);
+[a, b] = histcounts(image(:,:,1), 16);
+[c, d] = histcounts(image(:,:,2), 16);
+[e, f] = histcounts(image(:,:,3), 16);
+fa = mean(a);
+fb = mean(b);
+fc = mean(c);
+fd = mean(d);
+fe = mean(e);
+ff = mean(f);
+% fcolor = struct('R',{a,b},'G',{c,d},'B',{e,f});
+
+
+%     X(i, :) = [a, c, e];
+% end
+% 
+% new_label = zeros(100, 4);
+% k =1;
+% for i = 1:16:1600
+%     [num, text, raw] = xlsread('G:\databases\MIP\KIRC.xlsx');
+%     a = srcFiles(i).name;
+%     for j=2:101
+%         if(strcmp(a(1:12),text{j,1}))
+%             new_label(k,:) = num(j-1,:);
+%             k = k+1;
+%             break;
+%         end
+%     end
+% end
+% xlswrite('G:\databases\MIP\new_KIRC.xlsx', new_label)
 % Load the configuration and set dictionary size to 20 (for fast demo)
-c = conf();
-feature = 'color';
-c.feature_config.(feature).dictionary_size=100;
-[feat, x, y, wid, hgt] = extract_color(I, c);                   
+% c = conf();
+% feature = 'color';
+% c.feature_config.(feature).dictionary_size=100;
+% [~, ~, ~, ~, ~] = extract_color(I, c);                   
 
 %Built-in shape features                    
 statsI = regionprops(L, 'Area','Perimeter','Eccentricity',...
@@ -76,9 +117,11 @@ fMajorAxisLength = cat(1,statsI.MajorAxisLength);
 fMinorAxisLength = cat(1,statsI.MinorAxisLength);
 fExtent = cat(1,statsI.Extent);
 fSolidity = cat(1,statsI.Solidity);
-fMorph = [fArea, fPerimeter, fEccentricity, fCircularity,...
+fMorph = [fa,fb,fc,fd,fe,ff,fArea, fPerimeter, fEccentricity, fCircularity,...
             fMajorAxisLength, fMinorAxisLength, fExtent, fSolidity];
-MorphNames = {'Color','Area', 'Perimeter', 'Eccentricity', 'Circularity',...
+fMorph = [fArea, fPerimeter, fEccentricity, fCircularity,...
+            fMajorAxisLength, fMinorAxisLength, fExtent,fSolidity];
+MorphNames = {'fa','fb','fc','fd','fe','ff','Area', 'Perimeter', 'Eccentricity', 'Circularity',...
                 'MajorAxisLength', 'MinorAxisLength', 'Extent',...
                 'Solidity'};
 
@@ -104,6 +147,14 @@ for i = 1:N
 end
             
 %Calculate Fourier shape descriptors
+% Interval = round(Log2Spaced(0, log2(K)-1, FSDBins+1));
+FSDNames = cellfun(@(x,y) [x num2str(y)], repmat({'FSD'}, [1,FSDBins]),...
+                    num2cell(1:FSDBins), 'UniformOutput', false);
+FSDGroup = zeros(N, FSDBins);
+% for i = 1:N
+%     FSDGroup(i,:) = FourierShapeDescriptors(Bounds{i}(:,1),...
+%         Bounds{i}(:,2), K, Interval);
+% end
 Interval = round(Log2Spaced(0, log2(K)-1, FSDBins+1));
 FSDNames = cellfun(@(x,y) [x num2str(y)], repmat({'FSD'}, [1,FSDBins]),...
                     num2cell(1:FSDBins), 'UniformOutput', false);
@@ -154,7 +205,6 @@ CytoplasmNames = cellfun(@(x)strcat('Cytoplasm', x), Names, 'UniformOutput', fal
 Names = [MorphNames FSDNames NuclearNames CytoplasmNames];
 
 end
-
 
 function [Intensity, Names] = IntensityFeatureGroup(I, ObjectPixelList)
 Intensity = zeros(length(ObjectPixelList), 4);
